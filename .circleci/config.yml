@@ -9,7 +9,7 @@ version: 2.1
 
 #JOBS: build, test, scan, publish, deploy
 jobs:
-  build-and-test:
+  build:
     docker:
       - image: cimg/openjdk:17.0
     steps:
@@ -20,16 +20,14 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  # test:
-  #   docker:
-  #     - image: cimg/node:16.10
-  #   steps:
-  #     - checkout
-  #     - node/install-packages:
-  #         pkg-manager: npm
-  #     - run: |
-  #         echo "Running tests..."
-  #         npm run test
+  test:
+    docker:
+      - image: cimg/openjdk:17.0
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: mvn test
   # scan:
   #   docker:
   #     - image: cimg/node:16.10
@@ -71,23 +69,23 @@ jobs:
 workflows:
   ci_flow:
     jobs:
-      - build-and-test:
+      # - build-and-test:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
+      - build:
           filters:
             branches:
               only:
                 - develop
-      # - build:
-  #       filters:
-  #         branches:
-  #           only:
-  #             - development
-  #     - test:
-  #       filters:
-  #         branches:
-  #           only:
-  #             - development
-  #         requires:
-  #           - build
+      - test:
+          filters:
+            branches:
+              only:
+                - develop
+          requires:
+            - build
   #     - scan:
   #       filters:
   #         branches:
