@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  #create a job to build a docker image
+  build:
+    #use the docker executor
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+
+workflows:
+  build:
+    jobs:
+      - build
