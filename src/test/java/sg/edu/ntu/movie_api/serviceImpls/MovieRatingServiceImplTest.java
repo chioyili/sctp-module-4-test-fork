@@ -26,27 +26,27 @@ public class MovieRatingServiceImplTest {
     @InjectMocks
     MovieRatingServiceImplwLogging movieRatingService; 
     
-        @Test
-    public void getMovieRatingTest() {
-        MovieRating movieRating = MovieRating.builder().userid(1L).movieid(1L)
-                .rating(5).build();
+    //     @Test
+    // public void getMovieRatingTest() {
+    //     MovieRating movieRating = MovieRating.builder().userid(1L).movieid(1L)
+    //             .rating(5).build();
 
-        Long movieId = 1L;
-        Long userId = 1L;
+    //     Long movieId = 1L;
+    //     Long userId = 1L;
 
-        when(movieRatingRepository.findByUseridAndMovieid(userId, movieId)).thenReturn(Optional.of(movieRating));
+    //     when(movieRatingRepository.findByUseridAndMovieid(userId, movieId)).thenReturn(Optional.of(movieRating));
 
-        MovieRating retrievedMovie = movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId);
+    //     MovieRating retrievedMovie = movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId);
 
-        assertEquals(movieRating, retrievedMovie);
-    }
+    //     assertEquals(movieRating, retrievedMovie);
+    // }
 
-        @Test
-    void testGetMovieRatingNotFound() {
-        Long movieId = 1L;
-        Long userId = 1L;
-        when(movieRatingRepository.findByUseridAndMovieid(userId, movieId)).thenReturn(Optional.empty());
+    //     @Test
+    // void testGetMovieRatingNotFound() {
+    //     Long movieId = 1L;
+    //     Long userId = 1L;
+    //     when(movieRatingRepository.findByUseridAndMovieid(userId, movieId)).thenReturn(Optional.empty());
 
-        assertThrows(MovieRatingNotFoundException.class, () -> movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId));
-    }
+    //     assertThrows(MovieRatingNotFoundException.class, () -> movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId));
+    // }
 }

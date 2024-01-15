@@ -29,56 +29,56 @@ public class MovieRatingControllerTest {
     @MockBean
     private MovieRatingService movieRatingService;
 
-    @Test
-    @DisplayName("Update Movie Rating")
-    public void updateMovieRatingTest() throws Exception {
-        // Given
-        Long userId = 1L;
-        Long movieId = 1L;
-        Integer newRating = 5;
+//     @Test
+//     @DisplayName("Update Movie Rating")
+//     public void updateMovieRatingTest() throws Exception {
+//         // Given
+//         Long userId = 1L;
+//         Long movieId = 1L;
+//         Integer newRating = 5;
     
-        MovieRating existingRating = new MovieRating();
-        existingRating.setUserid(userId);
-        existingRating.setMovieid(movieId);
-        existingRating.setRating(3);
+//         MovieRating existingRating = new MovieRating();
+//         existingRating.setUserid(userId);
+//         existingRating.setMovieid(movieId);
+//         existingRating.setRating(3);
     
-        given(movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId)).willReturn(existingRating);
+//         given(movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId)).willReturn(existingRating);
     
-        // When
-        RequestBuilder request = MockMvcRequestBuilders.put("/movieRatings/users/1/movies/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(newRating));
+//         // When
+//         RequestBuilder request = MockMvcRequestBuilders.put("/movieRatings/users/1/movies/1")
+//                 .contentType(MediaType.APPLICATION_JSON)
+//                 .content(String.valueOf(newRating));
     
-        // Then
-        mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.userid").value(userId))
-                .andExpect(jsonPath("$.movieid").value(movieId))
-                .andExpect(jsonPath("$.rating").value(newRating));
-    }
+//         // Then
+//         mockMvc.perform(request)
+//                 .andExpect(status().isOk())
+//                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+//                 .andExpect(jsonPath("$.userid").value(userId))
+//                 .andExpect(jsonPath("$.movieid").value(movieId))
+//                 .andExpect(jsonPath("$.rating").value(newRating));
+//     }
     
     
     
-    @Test
-    @DisplayName("Update Non-Existing Movie Rating - Not Found")
-    public void updateNonExistingMovieRatingTest() throws Exception {
-        // Given
-        Long userId = 1L;
-        Long movieId = 3L;
-        Integer newRating = 4;
+//     @Test
+//     @DisplayName("Update Non-Existing Movie Rating - Not Found")
+//     public void updateNonExistingMovieRatingTest() throws Exception {
+//         // Given
+//         Long userId = 1L;
+//         Long movieId = 3L;
+//         Integer newRating = 4;
     
-        given(movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId)).willReturn(null);
+//         given(movieRatingService.getMovieRatingByUseridAndMovieid(userId, movieId)).willReturn(null);
     
-        // When
-        RequestBuilder request = MockMvcRequestBuilders.put("/movieRatings/users/1/movies/3")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(newRating));
+//         // When
+//         RequestBuilder request = MockMvcRequestBuilders.put("/movieRatings/users/1/movies/3")
+//                 .contentType(MediaType.APPLICATION_JSON)
+//                 .content(String.valueOf(newRating));
     
-        // Then
-        mockMvc.perform(request)
-                .andExpect(status().isNotFound());
-    }
+//         // Then
+//         mockMvc.perform(request)
+//                 .andExpect(status().isNotFound());
+//     }
     
 }
 

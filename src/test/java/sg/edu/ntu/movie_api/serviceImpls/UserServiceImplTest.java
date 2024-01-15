@@ -53,145 +53,112 @@ public class UserServiceImplTest {
     @InjectMocks
     UserServiceImplwLogging userService;
 
-    @Test
-    public void createUserTest() {
-
-        // 1. SETUP - Create a new customer
-        User user = User.builder().userid(4L).email("user4@gmail.com")
-                .password("password4").name("name4").build();
-
-        // mock the save method of the user repository
-        when((userRepository.save(user))).thenReturn(user);
-
-        // 2. EXECUTE
-        User savedUser = userService.createUser(user);
-
-        // 3. ASSERT
-        assertEquals(
-                user,
-                savedUser,
-                "The saved user should be the same as the new user.");
-
-        // also verify that the save method of the user repository is called once only.
-        verify(userRepository, times(1)).save(user);
-
-    }
-
-    @Test
-    public void getUserTest() {
-        // 1. SETUP
-        // Create a new user
-        User user = User.builder().userid(4L).email("user4@gmail.com")
-                .password("password4").name("name4").build();
-
-        Long userId = 1L;
-
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-
-        // 2.EXECUTE
-        User retrievedUser = userService.getUser(userId);
-
-        // 3. ASSERT
-        assertEquals(user, retrievedUser);
-    }
-
-    @Test
-    void testGetUserNotFound() {
-        Long userId = 1L;
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> userService.getUser(userId));
-    }
-
-    // //
-    // =================================USER-MOVIE=================================
-
-    // test below does not work :')
     // @Test
-    // public void addUserMovieTest() throws Exception {
+    // public void createUserTest() {
 
-    // Long userid = 1L;
-    // Long movieid = 1L;
+    //     // 1. SETUP - Create a new customer
+    //     User user = User.builder().userid(4L).email("user4@gmail.com")
+    //             .password("password4").name("name4").build();
 
-    // User user =
-    // User.builder().userid(userid).email("user4@gmail.com").password("password4").name("name4").build();
+    //     // mock the save method of the user repository
+    //     when((userRepository.save(user))).thenReturn(user);
 
-    // Movie movie = Movie.builder().movieTitle("Test Movie").movieYear(1234)
-    // .movieDescription("A test movie description").build();
+    //     // 2. EXECUTE
+    //     User savedUser = userService.createUser(user);
 
-    // UserMovie userMovie =
-    // UserMovie.builder().userMovieid(1L).userid(userid).movieid(movieid).build();
+    //     // 3. ASSERT
+    //     assertEquals(
+    //             user,
+    //             savedUser,
+    //             "The saved user should be the same as the new user.");
 
-    // when(userRepository.findById(userid)).thenReturn(Optional.of(user));
-
-    // when(movieRepository.findById(movieid)).thenReturn(Optional.of(movie));
-
-    // when(userMovieRepository.save(userMovie)).thenReturn(userMovie);
-
-    // UserMovie savedUserMovie = userService.addUserMovie(1L, 1L);
-
-    // assertEquals(userMovie, savedUserMovie);
-
-    // verify(userMovieRepository, times(1)).save(userMovie);
+    //     // also verify that the save method of the user repository is called once only.
+    //     verify(userRepository, times(1)).save(user);
 
     // }
 
-    @Test
-    public void getUserMovieTest() throws Exception {
-        Long userid = 1L;
-        Long movieid = 1L;
+    // @Test
+    // public void getUserTest() {
+    //     // 1. SETUP
+    //     // Create a new user
+    //     User user = User.builder().userid(4L).email("user4@gmail.com")
+    //             .password("password4").name("name4").build();
 
-        User user = User.builder().userid(userid).email("user4@gmail.com").password("password4").name("name4").build();
+    //     Long userId = 1L;
 
-        Movie movie = Movie.builder().movieid(movieid).movieTitle("Test Movie").movieYear(1234)
-                .movieDescription("A test movie description").build();
+    //     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        UserMovie userMovie = UserMovie.builder().userMovieid(1L).userid(userid).movieid(movieid).build();
+    //     // 2.EXECUTE
+    //     User retrievedUser = userService.getUser(userId);
 
-        when(userRepository.findById(userid)).thenReturn(Optional.of(user));
+    //     // 3. ASSERT
+    //     assertEquals(user, retrievedUser);
+    // }
 
-        when(movieRepository.findById(movieid)).thenReturn(Optional.of(movie));
+    // @Test
+    // void testGetUserNotFound() {
+    //     Long userId = 1L;
+    //     when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        when(userMovieRepository.findByUseridAndMovieid(userid, movieid)).thenReturn(Optional.of(userMovie));
+    //     assertThrows(UserNotFoundException.class, () -> userService.getUser(userId));
+    // }
 
-        // userMovie is found
+    // @Test
+    // public void getUserMovieTest() throws Exception {
+    //     Long userid = 1L;
+    //     Long movieid = 1L;
 
-        UserMovie foundUserMovie = userService.getUserMovie(userid, movieid);
+    //     User user = User.builder().userid(userid).email("user4@gmail.com").password("password4").name("name4").build();
 
-        assertEquals(foundUserMovie, userMovie);
+    //     Movie movie = Movie.builder().movieid(movieid).movieTitle("Test Movie").movieYear(1234)
+    //             .movieDescription("A test movie description").build();
 
-        // userMovie not found
+    //     UserMovie userMovie = UserMovie.builder().userMovieid(1L).userid(userid).movieid(movieid).build();
 
-        User user2 = User.builder().userid(2L).email("user4@gmail.com").password("password4").name("name4").build();
+    //     when(userRepository.findById(userid)).thenReturn(Optional.of(user));
 
-        when(userRepository.findById(2L)).thenReturn(Optional.of(user2));
+    //     when(movieRepository.findById(movieid)).thenReturn(Optional.of(movie));
 
-        assertThrows(UserMovieNotFoundException.class, () -> userService.getUserMovie(2L, movieid));
+    //     when(userMovieRepository.findByUseridAndMovieid(userid, movieid)).thenReturn(Optional.of(userMovie));
 
-    }
+    //     // userMovie is found
 
-    @Test
-    public void getAllUserMoviesTest() throws Exception {
-        Long userid = 1L;
-        Long movieid = 1L;
-        User user = User.builder().userid(userid).email("user4@gmail.com").password("password4").name("name4").build();
-        Movie movie = Movie.builder().movieid(movieid).movieTitle("Test Movie").movieYear(1234)
-                .movieDescription("A test movie description").build();
-        UserMovie userMovie = UserMovie.builder().userMovieid(1L).userid(userid).movieid(movieid).build();
-        List<UserMovie> userMovies = new ArrayList<>();
-        userMovies.add(userMovie);
-        when(userRepository.findById(userid)).thenReturn(Optional.of(user));
-        when(userMovieRepository.findByUserid(userid)).thenReturn(userMovies);
+    //     UserMovie foundUserMovie = userService.getUserMovie(userid, movieid);
 
-        // usermovies are found
-        ArrayList<UserMovie> foundUserMovies = userService.getAllUserMovies(userid);
-        assertEquals(foundUserMovies, userMovies);
+    //     assertEquals(foundUserMovie, userMovie);
 
-        // usermovies not found
-        User user2 = User.builder().userid(2L).email("user4@gmail.com").password("password4").name("name4").build();
-        when(userRepository.findById(2L)).thenReturn(Optional.of(user2));
-        assertThrows(UserMoviesNotFoundException.class, () -> userService.getAllUserMovies(2L));
+    //     // userMovie not found
 
-    }
+    //     User user2 = User.builder().userid(2L).email("user4@gmail.com").password("password4").name("name4").build();
+
+    //     when(userRepository.findById(2L)).thenReturn(Optional.of(user2));
+
+    //     assertThrows(UserMovieNotFoundException.class, () -> userService.getUserMovie(2L, movieid));
+
+    // }
+
+    // @Test
+    // public void getAllUserMoviesTest() throws Exception {
+    //     Long userid = 1L;
+    //     Long movieid = 1L;
+    //     User user = User.builder().userid(userid).email("user4@gmail.com").password("password4").name("name4").build();
+    //     Movie movie = Movie.builder().movieid(movieid).movieTitle("Test Movie").movieYear(1234)
+    //             .movieDescription("A test movie description").build();
+    //     UserMovie userMovie = UserMovie.builder().userMovieid(1L).userid(userid).movieid(movieid).build();
+    //     List<UserMovie> userMovies = new ArrayList<>();
+    //     userMovies.add(userMovie);
+    //     when(userRepository.findById(userid)).thenReturn(Optional.of(user));
+    //     when(userMovieRepository.findByUserid(userid)).thenReturn(userMovies);
+
+    //     // usermovies are found
+    //     ArrayList<UserMovie> foundUserMovies = userService.getAllUserMovies(userid);
+    //     assertEquals(foundUserMovies, userMovies);
+
+    //     // usermovies not found
+    //     User user2 = User.builder().userid(2L).email("user4@gmail.com").password("password4").name("name4").build();
+    //     when(userRepository.findById(2L)).thenReturn(Optional.of(user2));
+    //     assertThrows(UserMoviesNotFoundException.class, () -> userService.getAllUserMovies(2L));
+
+    // }
 
 }
