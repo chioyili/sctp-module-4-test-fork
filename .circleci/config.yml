@@ -28,6 +28,9 @@ jobs:
       - run:
           name: Test
           command: mvn test
+  scan:
+  publish:
+  pull-and-deploy:
   # scan:
   #   docker:
   #     - image: cimg/node:16.10
