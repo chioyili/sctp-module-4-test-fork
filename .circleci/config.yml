@@ -71,8 +71,11 @@ jobs:
 workflows:
   ci_flow:
     jobs:
-      - build-and-test
-      
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - develop
       # - build:
   #       filters:
   #         branches:
